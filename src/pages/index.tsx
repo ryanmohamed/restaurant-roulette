@@ -2,6 +2,9 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { useState } from 'react';
 
+const fetchLocation = () => {
+  fetch("")
+}
 
 export default function Home() {
   return (

@@ -29,7 +29,7 @@
     min-height: calc(100vh - 56px);
   }
   .screen-h {
-    height: calc(100vh - 56px);
+    height: calc(100vh - 1px);
   }
 }
 
@@ -47,9 +47,9 @@
   }
 }
 
-html {
-  scroll-padding-top: 57px;
-}
+/* html {
+  scroll-padding-top: 55px;
+} */
 
 body {
   color: rgb(var(--foreground-rgb));
