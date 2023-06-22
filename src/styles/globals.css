@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@100;200;300;400;500;600;700;800&family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply transition text-2xl font-poppins subpixel-antialiased text-stone-300;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply p-2 rounded-lg font-poppins shadow-stone-950 shadow-md transition-colors bg-green-700 hover:bg-green-500;
+  }
+  .bt {
+    @apply border-t-2 border-stone-800;
+  }
+}
+
+@layer utilities {
+  .centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .min-screen-h {
+    min-height: calc(100vh - 56px);
+  }
+  .screen-h {
+    height: calc(100vh - 56px);
+  }
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+html {
+  scroll-padding-top: 57px;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+  rgb(var(--background-start-rgb));
+  
+}
+
+html, body {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  background: black;
+}
+
+.video #top {
+  display: none !important;
+}
