@@ -40,16 +40,16 @@ export const getServerSideProps: GetServerSideProps<{
 
   const URL = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`;
 
-  //const restaurants = TestData;
-  const response = await fetch(URL, { 
-      method: "GET", 
-      headers: {
-          "content-type": "application/json",
-          "Authorization": `Bearer ${process.env.YELP_API_KEY}`
-      } 
-  });
-  const restaurants = await response.json();
-  console.log("Response", JSON.stringify(restaurants))
+  const restaurants = TestData;
+  // const response = await fetch(URL, { 
+  //     method: "GET", 
+  //     headers: {
+  //         "content-type": "application/json",
+  //         "Authorization": `Bearer ${process.env.YELP_API_KEY}`
+  //     } 
+  // });
+  // const restaurants = await response.json();
+  // console.log("Response", JSON.stringify(restaurants))
 
   return { 
       props: { 

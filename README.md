@@ -47,6 +47,14 @@ Since location can be found with some great free APIs we'll keep that logic neat
 
 Yelp requires our application API Key, so we'll use the web app's server as a proxy when retrieving data. This also aids in keeping our dynamic routes rendered on the server side. 
 
+## To Do
+
+- [ ] Store client inital location information as cookies.
+- [ ] Add ability to change location.
+- [ ] Update cookies with client edited location information.
+- [ ] Add middleware that redirects back to homepage when client lacks location cookie information. 
+- [ ] Add `getStaticProps` and `getStaticPaths` to root `/` route. Retrieve default data from either `yelp` or server side cache. 
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
