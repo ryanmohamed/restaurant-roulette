@@ -31,7 +31,7 @@ export default function Controls () {
             <div className="flex flex-wrap">
                 <div className="m-1 w-[22%] md:w-[45%]">
                 <p className="text-sm">Price:</p>
-                <Select className="h-fit font-barlow text-stone-950" options={[
+                {/* <Select className="h-fit font-barlow text-stone-950" options={[
                     { value: "$", label: "$"},
                     { value: "$$", label: "$$"},
                     { value: "$$$", label: "$$$"},
@@ -43,7 +43,7 @@ export default function Controls () {
                     { value: "5 miles", label: "5 miles"},
                     { value: "10 miles", label: "10 miles"},
                     { value: "25 miles", label: "25 miles"},
-                ]}/>
+                ]}/> */}
                 </div>
             </div>
             </div>

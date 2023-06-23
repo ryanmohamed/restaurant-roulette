@@ -1,4 +1,5 @@
-import React, { useState, createContext, useEffect, ReactNode } from "react";
+import { useState, createContext, useEffect } from "react";
+import type { FC, Dispatch, SetStateAction, ReactNode } from "react";
 
 type CoordinateType = {
     city: string,
@@ -12,7 +13,7 @@ type LocationContextType = {
     loading: boolean,
     error: string | null,
     location: CoordinateType | null,
-    setLocation: React.Dispatch<React.SetStateAction<CoordinateType | null>> | null
+    setLocation: Dispatch<SetStateAction<CoordinateType | null>> | null
 };
 
 export const LocationContext = createContext<LocationContextType>({
@@ -22,7 +23,7 @@ export const LocationContext = createContext<LocationContextType>({
     setLocation: null
 });
 
-export const LocationProvider: React.FC = ({children}: { children?: ReactNode }) => 
+export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) => 
 { 
     const [ location, setLocation ] = useState<CoordinateType | null>(null);
     const [ loading, setLoading ] = useState<boolean>(true);
