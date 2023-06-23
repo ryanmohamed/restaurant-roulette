@@ -23,6 +23,19 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Notes 
+
+Client-side API requests. 
+1. `ipify` public API is used in our case for simple, and unlimited retrieval of client IPs. (As opposed to extracting client IP from requests to the web server. This method is more robust and utilizes the services provided by `ipify`)
+2. `ip-api` public API is a great alternative to paid IP serives. All we need is latitude and longitude (for future location based API calls), however `ip-api` provides some extra data for zero cost and with zero limitation. 
+
+Server-side API requests. 
+1. `yelp` public API provides the basis of our restuarant data with location directly influencing it. However it's use is limited and authenticated with an API key. This communication should be kept away from the client entirely to ensure no requests to `yelp` in ill intent. 
+   1. Client requests restaurants from Server. 
+   2. Server requests `yelp` API. 
+   3. Server parses and returns cleaned restuarant data as response to Client. 
+   4. Client renders data as props on Page. 
+
 ## Thought Process
 
 Before we start requesting from the Yelp API, whether that be directly on the client-side or proxied through the server, we need the user's **location**. 

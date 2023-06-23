@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect, ReactNode } from "react";
 
 type CoordinateType = {
     city: string,
@@ -9,61 +9,77 @@ type CoordinateType = {
 }
 
 type LocationContextType = {
+    loading: boolean,
+    error: string | null,
     location: CoordinateType | null,
     setLocation: React.Dispatch<React.SetStateAction<CoordinateType | null>> | null
-}  
+};
 
 export const LocationContext = createContext<LocationContextType>({
+    loading: true,
+    error: null,
     location: null,
     setLocation: null
 });
 
-export const LocationProvider = ({children}: { children?: any}) => 
+export const LocationProvider: React.FC = ({children}: { children?: ReactNode }) => 
 { 
     const [ location, setLocation ] = useState<CoordinateType | null>(null);
-    const [ loading, setLoading ] = useState<boolean>(false);
+    const [ loading, setLoading ] = useState<boolean>(true);
+    const [ error, setError ] = useState<string | null>(null);
 
-    const fetchIP = async () => {
-        const response = await fetch("https://api.ipify.org?format=json", { method: "GET" });
-        if (response.status !== 200) return null;
-        
-        const ip_json = await response.json();
-        return ip_json.ip ?? null;
+    const fetchIP = async (): Promise<string | null> => {
+        try {
+            const response = await fetch("https://api.ipify.org?format=json", { method: "GET" });
+            if (response.status !== 200) throw new Error("Failed to fetch client IP from ipify.");
+            const ip_json = await response.json();
+            return ip_json.ip as string;
+        }
+        catch (error) {
+            console.error("Failed to fetch IP address", error);
+            return null;
+        }
     }
 
-    const fetchLocation = async () => {
+    const fetchLocation = async (): Promise<void> => {
+        // ip to location
         const ip = await fetchIP();
-        const response = await fetch(`http://ip-api.com/json/${ip}`, { method: "GET" });
-        // was the message recieved?
-        if (response.status !== 200) return null;
+        if (!ip) {
+            setError("Failed to fetch IP address");
+            setLoading(false);
+            return;
+        }
 
-        // did we do anything wrong
-        const json = await response.json();
-        if (json.status !== "success") return null;
+        try {
+            const response = await fetch(`http://ip-api.com/json/${ip}`, { method: "GET" });
+            if (response.status !== 200) throw new Error("Failed to fetch location data.");
+            const locationData = await response.json();
+            if (locationData.status !== "success") throw new Error("Failed to fetch location data.");
+            // use default values if response isn't as expected
+            const { city = "Montreal", regionName = "Quebec", zip = "H3H", lat = 45.5075, lon = -73.5887 } = locationData;
+            const loc: CoordinateType = { city, regionName, zip, lat, lon };
+            setLocation(loc);
+            setLoading(false);
+            setError(null);
+        }
 
-        // use default values if response isn't as expected
-        const city = json?.city ?? "Montreal";
-        const regionName = json?.regionName ?? "Quebec";
-        const zip = json?.zip ?? "H3H";
-        const lat = json?.lat ?? "45.5075";
-        const lon = json?.lon ?? "-73.5887";
-        
-        setLocation({
-            city: city, 
-            regionName: regionName, 
-            zip: zip,
-            lat: lat, 
-            lon: lon
-        })
-        console.log(city, regionName, lat, lon);
+        catch (error) {
+            console.log("Failed to fetch location data: ", error);
+            setError("Failed to fetch location data: ");
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
         fetchLocation();
     }, []);
 
+    const contextValue: LocationContextType = {
+        loading, error, location, setLocation
+    };
+
     return (
-        <LocationContext.Provider value={{ location, setLocation }}>
+        <LocationContext.Provider value={contextValue}>
             {children}
         </LocationContext.Provider>
     );
