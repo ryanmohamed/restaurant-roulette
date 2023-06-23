@@ -1,8 +1,6 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import { useState } from 'react';
 import useLocationContext from '@/hooks/useLocationContext';
-import Spinner from '@/components/Spinner';
+import RestaurantWireframe from '@/components/RestaurantWireframe';
+import Restaurant from '@/components/Restaurant';
 
 export default function Home() {
   const { error, loading } = useLocationContext();
@@ -18,14 +16,14 @@ export default function Home() {
   else if (loading) {
     return ( 
       <main className="page centered">
-        <Spinner />
+        <RestaurantWireframe />
       </main>
     )
   }
 
   return (
     <main className={`page`}>
-      <p className="text-5xl font-bold text-stone-950">Dexter's Kitchen</p>
+      <Restaurant />
     </main>
   )
 }
