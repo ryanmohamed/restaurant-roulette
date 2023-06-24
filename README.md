@@ -40,12 +40,12 @@ API Request Optimizations.
 1. `yelp`
    Naturally the free tier of the `yelp` API employs a daily 500 request limit. 
    We are mainly performing 2 kinds of API requests to the `yelp` API. 
-      1. > **Initial search request** (SSR): yields a `SearchResponseType` JSON object with an array of `BusinessType` objects. The provides enough data to render business information on the server side and send it to the client. *1 request per search*.
-      2. > **Supplemental Information Request**: (Proxied API request): Because the client renders one "page" of information from some `BusinessType[]` in a component at a time, we need only request the current business's supplemental information. *1 request per `next page` click*.
+   1.  **Initial search request** (SSR): yields a `SearchResponseType` JSON object with an array of `BusinessType` objects. The provides enough data to render business information on the server side and send it to the client. *1 request per search*.
+      1. **Supplemental Information Request**: (Proxied API request): Because the client renders one "page" of information from some `BusinessType[]` in a component at a time, we need only request the current business's supplemental information. *1 request per `next page` click*.
          1. Because we are requesting whenever the component's `page` state changes, we need to consider when we navigate backwards with `prev page` clicks. 
-            - > **Solution**: Check for cached restaurant data before making request on state change. 
+            - **Solution**: Check for cached restaurant data before making request on state change. 
          2. Any user would naturally rapidly click through the `next page` button causing a ton of requests from our server to `yelp`. 
-            - > **Solution**: Delay/debounce the API request by `n` milliseconds and clear any previous requests that were waiting to be made. Requests are only made when the component has "sat" for `n` milliseconds.
+            -  **Solution**: Delay/debounce the API request by `n` milliseconds and clear any previous requests that were waiting to be made. Requests are only made when the component has "sat" for `n` milliseconds.
 
 Further Considerations.
 1. When we perform our search we gather top-level information about many restaurants.
