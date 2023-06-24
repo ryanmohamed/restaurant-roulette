@@ -1,23 +1,19 @@
 import useLocationContext from '@/hooks/useLocationContext';
-import RestaurantWireframe from '@/components/RestaurantWireframe';
-import Restaurant from '@/components/Restaurant';
+import LoadingPage from '@/components/server/LoadingPage';
+import ErrorElement from '@/components/server/ErrorElement';
 
 export default function Home() {
   const { error, loading } = useLocationContext();
 
   if (error) {
     return ( 
-      <main className="page bg-stone-100 centered p-10">
-        <h1 className="animate-pulse text-center text-stone-950">Could not find your location automatically! Try setting it manually.</h1>
-      </main>
+      <ErrorElement message="Could not find your location automatically! Try setting it manually." />
     )
   }
 
   else if (loading) {
     return ( 
-      <main className="page centered">
-        <RestaurantWireframe />
-      </main>
+      <LoadingPage />
     )
   }
 

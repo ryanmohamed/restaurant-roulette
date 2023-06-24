@@ -1,9 +1,9 @@
-import Spinner from "./Spinner";
+import Loading from "./Loading";
 
 export default function RestaurantWireframe () {
     return (
         <div className="w-full h-full relative">
-            <Spinner />
+            <Loading />
             <div className="animate-pulse opacity-25">
                 <div className="flex items-end">
                     <h1 className="h-14 w-4/5 rounded-t-2xl bg-stone-600"></h1>

@@ -1,5 +1,6 @@
 import { useState, createContext, useEffect } from "react";
 import type { FC, Dispatch, SetStateAction, ReactNode } from "react";
+import useCookie from "@/hooks/useCookie";
 
 type CoordinateType = {
     city: string,
@@ -28,6 +29,9 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
     const [ location, setLocation ] = useState<CoordinateType | null>(null);
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ error, setError ] = useState<string | null>(null);
+
+    // cookies
+    const [ locationCookie, setLocationCookie, removeLocationCookie ] = useCookie("x-restaurant-roulette-location");
 
     const fetchIP = async (): Promise<string | null> => {
         try {
@@ -62,6 +66,12 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
             setLocation(loc);
             setLoading(false);
             setError(null);
+
+            const cookieOptions = {
+                expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // in 1 week
+            };
+            const locationString = JSON.stringify(loc);
+            setLocationCookie(locationString, cookieOptions);
         }
 
         catch (error) {
@@ -72,7 +82,18 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
     }
 
     useEffect(() => {
-        fetchLocation();
+
+        if (locationCookie) {
+            console.log("USING COOKIE DATA");
+            setLocation(locationCookie);
+            setLoading(false);
+            setError(null);
+        } 
+        else {
+            console.log("MAKING API CALLS");
+            fetchLocation();
+        }
+
     }, []);
 
     const contextValue: LocationContextType = {

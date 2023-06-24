@@ -36,6 +36,12 @@ Server-side API requests.
    3. Server parses and returns cleaned restuarant data as response to Client. 
    4. Client renders data as props on Page. 
 
+Further Considerations.
+1. When we perform our search we gather top-level information about many restaurants.
+2. We have the data both server side and client side, but only need to render one restaurant at a time.
+3. Each restaurant should asynchronously fetch supplementary information about itself like reviews, menu items, etc. We do not want to fetch supplementary information all at once, only fetch when needed.
+4. Since our application uses one mounted component with some restaurant data state, we only need to fetch the data when the state is changed. However an issue lies in refetching data when we navigate to restaurants we've already seen, **cache** the supplementary information and only retrieve the data from API for newly seen Restaurants.
+
 ## Thought Process
 
 Before we start requesting from the Yelp API, whether that be directly on the client-side or proxied through the server, we need the user's **location**. 
@@ -49,11 +55,16 @@ Yelp requires our application API Key, so we'll use the web app's server as a pr
 
 ## To Do
 
-- [ ] Store client inital location information as cookies.
+- [x] Store client inital location information as cookies.
 - [ ] Add ability to change location.
 - [ ] Update cookies with client edited location information.
-- [ ] Add middleware that redirects back to homepage when client lacks location cookie information. 
+- [x] Add middleware that redirects back to homepage when client lacks location cookie information. 
 - [ ] Add `getStaticProps` and `getStaticPaths` to root `/` route. Retrieve default data from either `yelp` or server side cache. 
+- [ ] Investigate the extra API calls being made for individual `Restaurant` components for supplemental information.
+- [ ] Refactor codebase.
+
+## Vulnerabilities
+1. A recently found vulnerability stemming from `semver`. Since this is a small project I will overlook this since it's a recently posted issue found [here.](https://github.com/advisories/GHSA-c2qf-rxjj-qqgw)
 
 ## Learn More
 

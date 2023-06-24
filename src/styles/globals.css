@@ -18,7 +18,7 @@
     @apply border-t-2 border-stone-800;
   }
   .page {
-    @apply box-border p-4 w-full h-full bg-stone-100 flex flex-col;
+    @apply flex-grow w-full box-border p-4 bg-stone-100 flex flex-col;
   }
 }
 
@@ -29,7 +29,7 @@
     justify-content: center;
   }
   .min-screen-h {
-    min-height: calc(100vh - 56px);
+    min-height: calc(100vh - 1px);
   }
   .screen-h {
     height: calc(100vh - 1px);

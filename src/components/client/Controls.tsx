@@ -1,11 +1,22 @@
 import useLocationContext from "@/hooks/useLocationContext";
+import { Dispatch, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import Select from "react-select";
 
-export default function Controls () {
+export default function Controls ({ setSearchTerms }: { setSearchTerms:  Dispatch<string | null> }) {
     const { location } = useLocationContext();
+    const searchTermRef = useRef<HTMLInputElement>(null);
+    const router = useRouter();
     const handleSearchChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         event.preventDefault();
+        setSearchTerms(event.target.value);
     }
+    useEffect(() => {
+        if (searchTermRef && searchTermRef.current) {
+            searchTermRef.current.value = "";
+            setSearchTerms(null);
+        }
+    }, [ router.pathname ])
     return (
         <>
             <div>
@@ -19,6 +30,7 @@ export default function Controls () {
             <p className="mb-2">Looking for something specific?</p>
             <input 
             type="text"
+                ref={searchTermRef}
                 onChange={handleSearchChange}
                 className="ml-2 md:ml-0 py-1 px-3 w-full max-w-[400px] rounded-full bg-stone-100 font-barlow text-base text-stone-950 "
                 name="search-terms" 
