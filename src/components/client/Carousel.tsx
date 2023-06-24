@@ -40,7 +40,22 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
 
     /* 1 extra api call on mount, but neglible for now */
     useEffect(() => {
-        fetchSupplementalData(values[page]?.id);
+        let timeout: NodeJS.Timeout | null = null;
+
+        // cancel any previous requests and make a new one
+        const delayRequest = () => {
+            if (timeout) clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                fetchSupplementalData(values[page]?.id)
+            }, 3000)
+        }
+        delayRequest();
+
+        return () => {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+        }
     }, [page]);
 
     const nextPage = () => {
