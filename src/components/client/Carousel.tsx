@@ -1,16 +1,16 @@
 import useCookie from "@/hooks/useCookie";
 import { useEffect, useState } from "react";
-import Restaurant, { BusinessType } from "./Restaurant";
+import Restaurant, { BusinessType, ReviewResponseType } from "./Restaurant";
 
 const cache: { [key: string]: any } = {};
 
 export default function Carousel ({ values }: { values: BusinessType[] }) {
     const [ page, setPage ] = useState<number>(0);
-    const [ locationCookie, setLocationCookie, removeLocationCookie ] = useCookie("x-restaurant-roulette-location");
-    const [restaurantsData, setRestaurantsData] = useState<{ [key: string]: any }>({});
+    const [ locationCookie ] = useCookie("x-restaurant-roulette-location");
+    const [ restaurantsData, setRestaurantsData ] = useState<{ [key: string]: any }>({});
   
     // data is requested when needed for each individual restaurant
-    // cached the results to avoid future API requests
+    // cache the results to avoid future API requests
     const fetchSupplementalData = async (restaurantId: string | null | undefined) => {
         if (restaurantId === null || restaurantId === undefined) return;
         if (locationCookie === null || locationCookie === undefined) return;
@@ -24,7 +24,8 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
             } else {
                 // Fetch the supplemental data for the restaurant
                 const response = await fetch(`/api/restaurant/${restaurantId}`);
-                const data = await response.json();
+                const data: ReviewResponseType = await response.json();
+                console.log(data);
                 cache[restaurantId] = data; // Store the data in cache
                 setRestaurantsData((prevData) => ({
                     ...prevData,

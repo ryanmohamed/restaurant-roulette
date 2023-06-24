@@ -1,8 +1,7 @@
+import { ReviewResponseType } from '@/components/client/Restaurant'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-type Data = {
-  name: string
-}
+type Data = ReviewResponseType | null
 
 type Error = {
     error: string
@@ -20,7 +19,7 @@ export default async function handler(
     const { slug } = req.query;
     if (slug?.length !== 1) return res.status(400).json({ error: 'Missing restaurant id.' });
     const id = slug[0];
-    const url = `https://api.yelp.com/v3/businesses/${id}`;
+    const url = `https://api.yelp.com/v3/businesses/${id}/reviews?sort_by_yelp_sort`;
 
     try {
         const response = await fetch(url, { 
@@ -31,8 +30,8 @@ export default async function handler(
         } 
         });
         console.log("REQUESTING EXTRA FROM YELP API");
-        const restaurants = await response.json();
-        return res.status(200).json({ name: restaurants });
+        const restaurants: ReviewResponseType = await response.json();
+        return res.status(200).json( restaurants );
     }
     catch (error) {
         console.error("An error occured retrieving restaurant information.", error);
@@ -40,5 +39,5 @@ export default async function handler(
     }
 
     console.log(slug);
-    return res.status(200).json({ name: `${slug}` })
+    return res.status(200).json(null)
 }

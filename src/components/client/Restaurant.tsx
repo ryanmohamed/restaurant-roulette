@@ -1,4 +1,28 @@
 import { useEffect } from "react";
+import Reviews from "../server/Reviews";
+import ReviewsWireframe from "../server/ReviewsWireframe";
+
+export type ReviewUserType = {
+    "id"?: string,
+    "profile_url"?: string | string,
+    "image_url"?: string | null,
+    "name"?: string | null 
+}
+
+export type ReviewType = {
+    "id"?: string,
+    "url"?: string,
+    "text"?: string,
+    "rating"?: number,
+    "time_created"?: string,
+    "user"?: ReviewUserType
+};
+
+export type ReviewResponseType = {
+    "reviews": ReviewType[],
+    "total": number,
+    "possible_languages"?: string[]
+};
 
 export type BusinessType = {
     "id"?: string;
@@ -38,7 +62,7 @@ export type SearchResponseType = {
     "total": number
 }
 
-export default function Restaurant ({ restaurant, extras }: { restaurant: BusinessType, extras: any }) {
+export default function Restaurant ({ restaurant, extras }: { restaurant: BusinessType, extras?: ReviewResponseType }) {
     const fetchBusiness = async () => {
         try {
             const response = await fetch('/api/restaurant');
@@ -80,7 +104,7 @@ export default function Restaurant ({ restaurant, extras }: { restaurant: Busine
                 </div>
             </div>
 
-        { extras ? <p>Retrieved supplemental information.</p> : <p>Loading...</p>}
+        { extras ? <Reviews reviews={extras.reviews}/> : <ReviewsWireframe /> }
 
         </div>
     );
