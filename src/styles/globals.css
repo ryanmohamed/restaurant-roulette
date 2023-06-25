@@ -18,7 +18,10 @@
     @apply border-t-2 border-stone-800;
   }
   .page {
-    @apply flex-grow w-full box-border p-4 bg-stone-100 flex flex-col;
+    @apply screen-h flex-grow w-full box-border p-4 bg-stone-100 flex flex-col;
+  }
+  .paginate {
+    @apply mx-4 flex items-center justify-center rounded-full text-stone-300 w-16 h-16 shadow-black shadow-md bg-gradient-to-r from-green-800 to-green-400 transition hover:scale-105;
   }
 }
 
@@ -32,7 +35,7 @@
     min-height: calc(100vh - 1px);
   }
   .screen-h {
-    height: calc(100vh - 1px);
+    height: calc(100vh - 55px);
   }
 }
 

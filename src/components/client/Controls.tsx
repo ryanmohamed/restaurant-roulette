@@ -2,6 +2,7 @@ import useLocationContext from "@/hooks/useLocationContext";
 import { Dispatch, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Select from "react-select";
+import FilterForm from "./FilterForm";
 
 export default function Controls ({ setSearchTerms }: { setSearchTerms:  Dispatch<string | null> }) {
     const { location } = useLocationContext();
@@ -26,7 +27,9 @@ export default function Controls ({ setSearchTerms }: { setSearchTerms:  Dispatc
             </div>
             </div>
 
-            <div className="mt-8 flex items-center justify-between md:justify-start md:items-start md:flex-col ml-2 md:ml-0">
+            <FilterForm />
+
+            {/* <div className="mt-8 flex items-center justify-between md:justify-start md:items-start md:flex-col ml-2 md:ml-0">
             <p className="mb-2">Looking for something specific?</p>
             <input 
             type="text"
@@ -55,7 +58,7 @@ export default function Controls ({ setSearchTerms }: { setSearchTerms:  Dispatc
                     { value: "5 miles", label: "5 miles"},
                     { value: "10 miles", label: "10 miles"},
                     { value: "25 miles", label: "25 miles"},
-                ]}/> */}
+                ]}/> /}
                 </div>
             </div>
             </div>
@@ -83,7 +86,7 @@ export default function Controls ({ setSearchTerms }: { setSearchTerms:  Dispatc
                 />
                 </label>
             </div>
-            </div>
+            </div> */}
         </>
     );
 }

@@ -68,7 +68,7 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
             setError(null);
 
             const cookieOptions = {
-                expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // in 1 week
+                expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
             };
             const locationString = JSON.stringify(loc);
             setLocationCookie(locationString, cookieOptions);
@@ -82,7 +82,6 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
     }
 
     useEffect(() => {
-
         if (locationCookie) {
             console.log("USING COOKIE DATA");
             setLocation(locationCookie);
@@ -93,7 +92,6 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
             console.log("MAKING API CALLS");
             fetchLocation();
         }
-
     }, []);
 
     const contextValue: LocationContextType = {

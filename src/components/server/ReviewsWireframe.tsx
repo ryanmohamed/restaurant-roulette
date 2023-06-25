@@ -1,6 +1,4 @@
-import { ReviewResponseType } from "../client/Restaurant";
-
-export default function Reviews () {
+export default function ReviewswWireframe() {
     return (
         <div className="w-full bg-reg-100">
             Reviews Wireframe

@@ -1,4 +1,6 @@
-const TestData = {
+import { SearchResponseType } from "./lib/YelpTypes";
+
+export const TestData: SearchResponseType = {
     "businesses": [
       {
         "id": "6XW8brAVvnGGUvbckU2SLQ",
@@ -953,10 +955,8 @@ const TestData = {
     ],
     "total": 128,
     "region": {
-      "center": {
-        "longitude": -73.8442,
-        "latitude": 40.6805
-      }
+      "longitude": -73.8442,
+      "latitude": 40.6805
     }
   }
 

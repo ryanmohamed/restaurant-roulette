@@ -1,6 +1,8 @@
 import useCookie from "@/hooks/useCookie";
+import type { BusinessType, ReviewResponseType } from "@/lib/YelpTypes";
 import { useEffect, useState } from "react";
-import Restaurant, { BusinessType, ReviewResponseType } from "./Restaurant";
+import Restaurant from "../server/Restaurant";
+import Caret from "../svgs/Caret";
 
 const cache: { [key: string]: any } = {};
 
@@ -23,9 +25,9 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
                 }));
             } else {
                 // Fetch the supplemental data for the restaurant
-                const response = await fetch(`/api/restaurant/${restaurantId}`);
+                const response = await fetch(`/api/rating/${restaurantId}`);
+                if (response.status !== 200) throw new Error("Failed to retrieve supplemental restaurant data.");
                 const data: ReviewResponseType = await response.json();
-                console.log(data);
                 cache[restaurantId] = data; // Store the data in cache
                 setRestaurantsData((prevData) => ({
                     ...prevData,
@@ -64,11 +66,17 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
     const prevPage = () => {
         if (page - 1 >= 0) setPage(page - 1);
     }
+    
     return (
-        <div>
+        <div className="flex flex-col flex-grow justify-between">
             <Restaurant restaurant={values[page]} extras={restaurantsData[values[page]?.id || ""]} />
-            <button onClick={prevPage} className="btn text-white">Previous</button>
-            <button onClick={nextPage} className="btn text-white">Next</button>
+            <div className="centered h-20 mt-4">
+                <div className="flex border-2 w-fit border-stone-400 p-2 rounded-full">
+                    <button onClick={prevPage} className="paginate"><Caret fill="white" className="rotate-180 h-16 w-16" /></button>
+                    <p className="w-10 text-center centered text-lg text-stone-600 font-poppins">Page {page+1}/{values.length}</p>
+                    <button onClick={nextPage} className="paginate"><Caret fill="white" className="h-16 w-16" /></button>
+                </div>
+            </div>
         </div>
     );
 }
