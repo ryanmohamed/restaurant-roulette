@@ -130,6 +130,13 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
 
             // fallback and ask the user for their location
             const errorCallback = (error: any) => {
+                const newLocation = { city: "Montreal", regionName: "Quebec", zip: "H3H", lat: 45.5075, lon: -73.5887 };
+                setLocation(newLocation);
+                const cookieOptions = {
+                    expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
+                };
+                const locationString = JSON.stringify(newLocation);
+                setLocationCookie(locationString, cookieOptions);
                 console.log(error);
             };
             navigator.geolocation.getCurrentPosition(onLocationSuccess, errorCallback)
