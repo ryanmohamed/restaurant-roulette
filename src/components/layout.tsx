@@ -14,7 +14,7 @@ export default function Layout ({ children }: { children: ReactNode } ) {
         <div className="pt-14 min-screen-h">
             <Modal show={showModal} close={() => setShowModal && setShowModal(false)}>
                 <div>
-                    <p className="mb-4 text-white font-poppins font-bold text-center text-2xl">Move the marker to your new location, the app will updated automatically.</p>
+                    <p className="mb-4 text-white font-poppins font-bold text-center text-2xl">Move the marker to your new location, the app will update automatically.</p>
                     <GoogleMap />
                     <p className="mt-4 text-white font-poppins font-bold text-center text-2xl">Click anywhere to close.</p>
                 </div>

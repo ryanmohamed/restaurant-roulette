@@ -49,9 +49,7 @@ export default function Map () {
                     onDragEnd={ async (e) => {
                         const lat = e.latLng?.lat();
                         const lon = e.latLng?.lng();
-                        console.log(lat, lon)
                         const information = await fetchReverseGeocode(lat, lon);
-                        console.log(information);
                         if (information?.length < 3) return;
 
                         const newLocation = {
@@ -61,7 +59,7 @@ export default function Map () {
                             lat: lat || position.lat as number,
                             lon: lon || position.lng as number
                         }
-                        
+
                         const cookieOptions = {
                             expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
                         };
