@@ -49,7 +49,9 @@ export default function Map () {
                     onDragEnd={ async (e) => {
                         const lat = e.latLng?.lat();
                         const lon = e.latLng?.lng();
+                        console.log(lat, lon)
                         const information = await fetchReverseGeocode(lat, lon);
+                        console.log(information);
                         if (information?.length !== 3) return;
                         const [ address, city, state ] = information as [string, string, string];
                         console.log(information)
