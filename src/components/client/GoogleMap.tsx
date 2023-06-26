@@ -50,7 +50,7 @@ export default function Map () {
                         const lat = e.latLng?.lat();
                         const lon = e.latLng?.lng();
                         const information = await fetchReverseGeocode(lat, lon);
-                        const [ address, city, state ] = information;
+                        const [ address, city, state ] = information as [string, string, string];
                         console.log(information)
 
                         const newLocation = {
