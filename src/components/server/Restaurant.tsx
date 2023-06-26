@@ -19,11 +19,15 @@ export default function Restaurant ({ restaurant, extras }: { restaurant: Busine
             
                 <div className="mt-2 sm:mt-6 flex flex-col sm:flex-row">
                     <div className="self-center sm:mb-0 w-fit sm:max-w-[40%] h-fit rounded-2xl shadow-black shadow-md overflow-hidden sm:mr-4">
-                        <img 
-                            src={restaurant?.image_url || "http://placeholder.co/500/500"} 
-                            alt="restaurant image" //todo: add restaurant specifc alt text
-                            className="h-[200px] sm:h-[300px] w-auto object-cover saturate-150 brightness-90" 
-                        />
+                        {
+                            /* eslint-disable */ 
+                            <img 
+                                src={restaurant?.image_url || "http://placeholder.co/500/500"} 
+                                alt="restaurant image" //todo: add restaurant specifc alt text
+                                className="h-[200px] sm:h-[300px] w-auto object-cover saturate-150 brightness-90" 
+                            />
+                            /* eslint-enable */ 
+                        }
                     </div>
                     <div className="flex flex-col justify-between flex-grow">
 
@@ -43,8 +47,8 @@ export default function Restaurant ({ restaurant, extras }: { restaurant: Busine
                         <div className="self-end flex flex-col items-end mt-4">
                             <h3 className="w-fit font-poppins font-semibold border-b-2 border-stone-800">Tags</h3>
                             <ul className="mt-2 flex flex-wrap">
-                                { restaurant.categories.length > 0 && restaurant.categories.map((category: CategoryType) => (
-                                    <li className="font-barlow mr-1 mb-1 w-fit p-1 px-2 rounded-2xl text-sm capitalize border-2 border-stone-800">{category.title}</li>
+                                { restaurant.categories.length > 0 && restaurant.categories.map((category: CategoryType, key: number) => (
+                                    <li key={key} className="font-barlow mr-1 mb-1 w-fit p-1 px-2 rounded-2xl text-sm capitalize border-2 border-stone-800">{category.title}</li>
                                 ))}
                             </ul>
                         </div>

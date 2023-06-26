@@ -32,7 +32,11 @@ function SingleReview ({ review }: { review: ReviewType }) {
             <Link href={review.user.profile_url} className="relative">
                 <div className="centered flex-col w-[60px] md:w-[100px] pl-2 mt-1 border-r-2 border-stone-300 transition group-hover:border-stone-400 pr-2"> 
                     <div className="h-6 w-6 md:h-10 md:w-10 overflow-hidden rounded-full">
-                        <img className="object-cover w-full h-full" src={review?.user?.image_url || "https://placeholder.co/500/500"} alt="review profile picture" />
+                        {
+                            /* eslint-disable */
+                            <img className="object-cover w-full h-full" src={review?.user?.image_url || "https://placeholder.co/500/500"} alt="review profile picture" /> 
+                            /* eslint-enable */ 
+                        }
                     </div>
                     <p className="font-barlow text-[11px] text-center text-stone-700">{review.user?.name}</p>
                 </div>

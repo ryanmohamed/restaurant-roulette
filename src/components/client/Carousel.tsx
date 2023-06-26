@@ -58,7 +58,9 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
                 clearTimeout(timeout);
             }
         }
+        /* eslint-disable */ 
     }, [page]);
+    /* eslint-ensable */ 
 
     const nextPage = () => {
         if (page + 1 < values.length) setPage(page + 1);

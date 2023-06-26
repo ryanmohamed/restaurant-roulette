@@ -15,11 +15,14 @@ export default function FavoriteBlock ({ restaurant }: { restaurant: BusinessTyp
                 </div>
             </div>
             <div className="self-center">
+            {/* eslint-disable */ 
                 <img 
                     src={restaurant?.image_url || "http://placeholder.co/500/500"} 
                     alt="restaurant image" //todo: add restaurant specifc alt text
                     className="h-[200px] sm:h-[300px] w-auto object-cover saturate-150 brightness-90" 
                 />
+            /* eslint-enable */ 
+            }
             </div>
         </div>
     );

@@ -5,7 +5,7 @@ export default function Footer ({}) {
         <footer className="w-full min-h-[300px] bg-stone-950 bt p-6">
             <div className="flex justify-end w-full"><h2 className="text-4xl font-poppins font-bold text-stone-500 border-b-2 border-stone-800 w-fit">Restaurant Roulette</h2></div>
             <div className="text-center font-barlow text-base text-stone-400 p-4 py-8">
-                <p className="mb-6 border-2 border-stone-800 md:border-none md:p-0 p-2 rounded-2xl">Restaurant Roulette is a simple web app target towards providing user's with accurate and customizeable restaurant data. Apps like Uber, DoorDash, and Seamless seem to always show the same results. Most experiences are also tailored towards mobile apps with wep pages left as a support page.</p>
+                <p className="mb-6 border-2 border-stone-800 md:border-none md:p-0 p-2 rounded-2xl">Restaurant Roulette is a simple web app target towards providing user&apos;s with accurate and customizeable restaurant data. Apps like Uber, DoorDash, and Seamless seem to always show the same results. Most experiences are also tailored towards mobile apps with wep pages left as a support page.</p>
                 <p className="mb-6 border-2 border-stone-800 md:border-none md:p-0 p-2 rounded-2xl">Restaurant Roulette aims to quickly serve users information about restaurants in their area and location preferences, with a focus on simplicity and analyzing one restaurant at a time. Less is more!</p>
                 <p className="border-2 border-stone-800 md:border-none md:p-0 p-2 rounded-2xl">Customize your search, save your favorites, and come back to an even faster working wep app!</p>
             </div>

@@ -71,16 +71,6 @@ Since location can be found with some great free APIs we'll keep that logic neat
 
 Yelp requires our application API Key, so we'll use the web app's server as a proxy when retrieving data. This also aids in keeping our dynamic routes rendered on the server side. 
 
-## To Do
-
-- [x] Store client inital location information as cookies.
-- [ ] Add ability to change location.
-- [ ] Update cookies with client edited location information.
-- [x] Add middleware that redirects back to homepage when client lacks location cookie information. 
-- [ ] Add `getStaticProps` and `getStaticPaths` to root `/` route. Retrieve default data from either `yelp` or server side cache. 
-- [ ] Investigate the extra API calls being made for individual `Restaurant` components for supplemental information.
-- [ ] Refactor codebase.
-
 ## Vulnerabilities
 1. A recently found vulnerability stemming from `semver`. Since this is a small project I will overlook this since it's a recently posted issue found [here.](https://github.com/advisories/GHSA-c2qf-rxjj-qqgw)
 

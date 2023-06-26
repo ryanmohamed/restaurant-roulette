@@ -93,7 +93,7 @@ const FilterForm = () => {
                 <div className="mt-4 pt-4 border-t-2 border-stone-800">
                     <p className="text-sm font-bold">Add some categories:</p>
                     <div className="mt-2 flex flex-wrap">
-                        <Checkbox name="hot_n_new" extras="border-red-700 text-red-700">Hot N' New 🔥</Checkbox>
+                        <Checkbox name="hot_n_new" extras="border-red-700 text-red-700">Hot N&apos; New 🔥</Checkbox>
                         <Checkbox name="deals" extras="border-green-700 text-green-700">Deals 🤑</Checkbox>
                         <Checkbox name="fast_food" extras="border-orange-700 text-orange-700">Fast Food 🍟</Checkbox> 
                         <Checkbox name="salad" extras="border-emerald-700 text-emerald-700">Salad 🥗</Checkbox>

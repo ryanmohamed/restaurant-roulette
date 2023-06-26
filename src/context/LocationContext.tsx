@@ -97,7 +97,9 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
             console.log("MAKING API CALLS");
             fetchLocation();
         }
+        /* eslint: disable */
     }, []);
+     /* eslint: enable */
 
     const contextValue: LocationContextType = {
         loading, error, location, setLocation, showModal, setShowModal
