@@ -96,7 +96,7 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
         }
 
         try {
-            const response = await fetch(`http://ips-api.com/json/${ip}`, { method: "GET" });
+            const response = await fetch(`http://ip-api.com/json/${ip}`, { method: "GET" });
             if (response.status !== 200) throw new Error("Failed to fetch location data.");
             const locationData = await response.json();
             if (locationData.status !== "success") throw new Error("Failed to fetch location data.");
