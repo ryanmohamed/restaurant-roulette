@@ -27,7 +27,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Client-side API requests. 
 1. `ipify` public API is used in our case for simple, and unlimited retrieval of client IPs. (As opposed to extracting client IP from requests to the web server. This method is more robust and utilizes the services provided by `ipify`)
-2. `ip-api` public API is a great alternative to paid IP serives. All we need is latitude and longitude (for future location based API calls), however `ip-api` provides some extra data for zero cost and with zero limitation. 
+2. `ip-api` public API is a great alternative to paid IP serives. All we need is latitude and longitude (for future location based API calls), however `ip-api` provides some extra data for zero cost and with zero limitation. (This is an alternative to `navigator.geolocation` to emphasize API use)
 
 Server-side API requests. 
 1. `yelp` public API provides the basis of our restuarant data with location directly influencing it. However it's use is limited and authenticated with an API key. This communication should be kept away from the client entirely to ensure no requests to `yelp` in ill intent. 
@@ -35,6 +35,12 @@ Server-side API requests.
    2. Server requests `yelp` API. 
    3. Server parses and returns cleaned restuarant data as response to Client. 
    4. Client renders data as props on Page. 
+2. Google `geocode` API provides latitude and longitude conversions for real addresses.
+   1. Client initiates requests to web server.
+   2. Web server makes requests to Google API.
+   3. Web server returns data for client to render and update UI.
+3. Google `Map` JavaScript API used in `@react-google-maps/api`, not much work done by except for event listeners and creating an API key.
+   1. IMPORTANT NOTE: Because the service is only accessible with a billing account, I had to add one. However the second it goes over 10 cents, I have set up a Pub-Sub topic which triggers a cloud function to disable billing entirely. Big thank you to the resources provided by (this video)[https://www.youtube.com/watch?v=KiTg8RPpGG4&ab_channel=DataSlayer]
 
 API Request Optimizations.
 1. `yelp`

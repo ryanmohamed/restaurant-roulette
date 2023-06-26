@@ -19,7 +19,7 @@ const yupValidationSchema = Yup.object({
 });
 
 const FilterForm = () => {
-    const { location } = useLocationContext();
+    const { location, setShowModal } = useLocationContext();
     const router = useRouter();
     return <Formik
         initialValues={{
@@ -34,11 +34,12 @@ const FilterForm = () => {
             salad: false
         }}
         validationSchema={yupValidationSchema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
             if (location === null || location === undefined) return;
             const url = createURL(location?.lat, location?.lon, values);
             setSubmitting(false);
             router.push(url + "#content");
+            resetForm();
         }}
     >
 
@@ -46,7 +47,7 @@ const FilterForm = () => {
             <div>
                 <div className="flex flex-col text-sm">
                     <p className="flex justify-between text-right"><b className="mr-4">Location:</b> <span>{location ? `${location.city}, ${location.regionName}, ${location.zip}` : "Montreal, Quebec, H3H"}</span></p>
-                    <button className="self-end w-fit text-red-500 text-sm cursor-pointer">Change location</button>
+                    <div className="self-end w-fit text-red-500 text-sm cursor-pointer" onClick={() => setShowModal && setShowModal(true)}>Change location</div>
                 </div>
 
                 <TextInput 

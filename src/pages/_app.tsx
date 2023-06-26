@@ -5,11 +5,14 @@ import { useEffect, useState } from 'react';
 import Layout from '@/components/layout';
 import LoadingPage from '@/components/server/LoadingPage';
 import { LocationProvider } from '@/context/LocationContext';
+import Modal from '@/components/client/Modal';
+import GoogleMap from '@/components/client/GoogleMap';
 
 const App = ({ Component, pageProps }: AppProps) => {
 
   // mainly added for ssr pages while data is being fetched
   const [ loadingRoute, setLoading ] = useState<boolean>(false);
+  
     useEffect(() => {
       const start = () => setLoading(true);
       const end = () => setLoading(false);

@@ -22,21 +22,21 @@ export const getServerSideProps: GetServerSideProps<{
   //const restaurants = TestData;
   let restaurants: SearchResponseType | ErrorResponseType | null = TestData;
 
-  // try {
-  //   const response = await fetch(URL, { 
-  //     method: "GET", 
-  //     headers: {
-  //         "content-type": "application/json",
-  //         "Authorization": `Bearer ${process.env.YELP_API_KEY}`
-  //     } 
-  //   });
-  //   restaurants = await response.json();
-  //   if (response.status !== 200) throw new Error();
-  //   console.log("REQUESTED YELP API INFORMATION");
-  // }
-  // catch (error) {
-  //   console.error(errorMessage, error);
-  // }
+  try {
+    const response = await fetch(URL, { 
+      method: "GET", 
+      headers: {
+          "content-type": "application/json",
+          "Authorization": `Bearer ${process.env.YELP_API_KEY}`
+      } 
+    });
+    restaurants = await response.json();
+    if (response.status !== 200) throw new Error();
+    console.log("REQUESTED YELP API INFORMATION");
+  }
+  catch (error) {
+    console.error(errorMessage, error);
+  }
   
   return { props: { restaurants } }
 }

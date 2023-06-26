@@ -14,14 +14,18 @@ type LocationContextType = {
     loading: boolean,
     error: string | null,
     location: CoordinateType | null,
-    setLocation: Dispatch<SetStateAction<CoordinateType | null>> | null
+    setLocation: Dispatch<SetStateAction<CoordinateType | null>> | null,
+    showModal: boolean,
+    setShowModal: Dispatch<SetStateAction<boolean>> | null
 };
 
 export const LocationContext = createContext<LocationContextType>({
     loading: true,
     error: null,
     location: null,
-    setLocation: null
+    setLocation: null,
+    showModal: false,
+    setShowModal: null
 });
 
 export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) => 
@@ -29,6 +33,7 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
     const [ location, setLocation ] = useState<CoordinateType | null>(null);
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ error, setError ] = useState<string | null>(null);
+    const [ showModal, setShowModal ] = useState<boolean>(false);
 
     // cookies
     const [ locationCookie, setLocationCookie, removeLocationCookie ] = useCookie("x-restaurant-roulette-location");
@@ -95,7 +100,7 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
     }, []);
 
     const contextValue: LocationContextType = {
-        loading, error, location, setLocation
+        loading, error, location, setLocation, showModal, setShowModal
     };
 
     return (
