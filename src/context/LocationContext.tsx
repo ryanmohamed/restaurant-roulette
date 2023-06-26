@@ -38,17 +38,62 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
     // cookies
     const [ locationCookie, setLocationCookie, removeLocationCookie ] = useCookie("x-restaurant-roulette-location");
 
+    const handleAndThrowError = (error: string | unknown | any) => {
+        console.log("Handling", error)
+        setError(error as string);
+        setLoading(false);
+        throw error;
+    } 
+
+
+    const handleError = (message: any) => {
+        console.log("Handling error", error)
+        setError(message as string);
+        setLoading(false);
+    } 
+
+    const storeLocationAsCookies = (l: CoordinateType) => {
+        const cookieOptions = {
+            expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
+        };
+        const locationString = JSON.stringify(l);
+        setLocationCookie(locationString, cookieOptions);
+    }
+
+    const acceptLocationData = (locationData: any) => {
+        // use default values if response isn't as expected
+        const { city = "Montreal", regionName = "Quebec", zip = "H3H", lat = 45.5075, lon = -73.5887 } = locationData ?? {city: "Montreal", regionName: "Quebec", zip: "H3H", lat: 45.5075, lon: -73.5887 };
+        const newLocation: CoordinateType = { city, regionName, zip, lat, lon };
+        setLocation(newLocation);
+        setLoading(false);
+        setError(null);
+        storeLocationAsCookies(newLocation);
+    }   
+
+    const handlePermissionDeniedOrUnaccessible = (error: any) => {
+        // use the default locaiton in montreal for absolute failure to retrieve location
+        acceptLocationData(null);
+    }
+
+    /* throws error if necessary */
+    const fetchGeocodeData = async (latitude: number, longitude: number) => {
+        const response = await fetch(`/api/geocode/get_location?latitude=${latitude}&longitude=${longitude}`, { method: "GET", headers: { "Content-Type": "application/json" } });
+        if(response?.status !== 200) throw new Error("Failed to retrieve coordinate information from Google.");
+        const data = await response.json();
+        if(data === undefined || data === null) throw new Error("Failed to retrieve coordinate information from Google.");
+        return data;
+    }
+
     // if the user explicitly provides the location, use proxied google api to retrieve extra information about address
-    const onLocationSuccess = async (position: GeolocationPosition) => {
+    const handlePermissionGrantedOrAccessible = async (position: GeolocationPosition) => {
         const { coords: { latitude, longitude} } = position;
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`/api/geocode/get_location?latitude=${latitude}&longitude=${longitude}`, { method: "GET" });
-            if(response?.status !== 200) throw new Error("Failed to retrieve coordinate information from Google.");
-            const data = await response.json();
-            if(data === undefined || data === null) throw new Error("Failed to retrieve coordinate information from Google.");
-            const terms = data.formatted_address?.split(',');
+            const data = await fetchGeocodeData(latitude, longitude);
+            const terms = data?.formatted_address?.split(',');
+            if (typeof terms?.length !== "number" && terms.length < 3) handleAndThrowError("Failed to format address.");
+
             const [ address, city, state ] = terms;
             const newLocation = {
                 city: address as string, // formatting quick solution, todo: refactor in locaiton context
@@ -57,29 +102,13 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
                 lat: latitude,
                 lon: longitude
             }
-            console.log("new location", newLocation)
-            setLocation(newLocation);
-            setError(null);
-            setLoading(false);
-
-            const cookieOptions = {
-                expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
-            };
-            const locationString = JSON.stringify(newLocation);
-            setLocationCookie(locationString, cookieOptions);
+            acceptLocationData(newLocation);
         }
         catch (error) {
-            removeLocationCookie({ });
-            setError("Failed to fetch location data: ");
-            setLoading(false);
+            removeLocationCookie({});
+            handleAndThrowError("Failed to fetch location data.");
             const newLocation = { city: "Montreal", regionName: "Quebec", zip: "H3H", lat: 45.5075, lon: -73.5887 };
-            setLocation(newLocation);
-            const cookieOptions = {
-                expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
-            };
-            const locationString = JSON.stringify(newLocation);
-            setLocationCookie(locationString, cookieOptions);
-            console.log("Failed to retrieve coordinate information from Google.");
+            acceptLocationData(newLocation);
         }
     };
 
@@ -91,72 +120,65 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
             return ip_json.ip as string;
         }
         catch (error) {
-            console.error("Failed to fetch IP address", error);
-            return null;
+            handleError("Failed to fetch IP address");
+            throw error;
         }
     }
 
+    /*
+        throws error to maintain one responsibility 
+    */
     const fetchLocationWithIP = async (): Promise<void> => {
-        // ip to location
-        const ip = await fetchIP();
-        if (!ip) {
-            setError("Failed to fetch IP address");
-            setLoading(false);
-            return;
-        }
-
         try {
-            const response = await fetch(`http://ip-api.com/json/${ip}`, { method: "GET" });
+            const ip = await fetchIP(); // ip to location
+            if (!ip) throw new Error("Failed to fetch IP data.");
+
+            const response = await fetch(`http://isdp-api.com/json/${ip}`, { method: "GET" });
             if (response.status !== 200) throw new Error("Failed to fetch location data.");
+
             const locationData = await response.json();
             if (locationData.status !== "success") throw new Error("Failed to fetch location data.");
-            // use default values if response isn't as expected
-            const { city = "Montreal", regionName = "Quebec", zip = "H3H", lat = 45.5075, lon = -73.5887 } = locationData;
-            const loc: CoordinateType = { city, regionName, zip, lat, lon };
-            setLocation(loc);
-            setLoading(false);
-            setError(null);
 
-            const cookieOptions = {
-                expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
-            };
-            const locationString = JSON.stringify(loc);
-            setLocationCookie(locationString, cookieOptions);
+            acceptLocationData(locationData);
         }
-
         catch (error) {
-            console.log("Failed to fetch location data: ", error);
-            setError("Failed to fetch location data: ");
-
-            // fallback and ask the user for their location
-            const errorCallback = (error: any) => {
-                const newLocation = { city: "Montreal", regionName: "Quebec", zip: "H3H", lat: 45.5075, lon: -73.5887 };
-                setLocation(newLocation);
-                const cookieOptions = {
-                    expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
-                };
-                const locationString = JSON.stringify(newLocation);
-                setLocationCookie(locationString, cookieOptions);
-                console.log(error);
-            };
-            navigator.geolocation.getCurrentPosition(onLocationSuccess, errorCallback)
+            handleError(error);
+            throw error;
         }
     }
 
+    // ...
+
     useEffect(() => {
-        if (locationCookie) {
-            console.log("USING COOKIE DATA");
-            setLocation(locationCookie);
-            setLoading(false);
-            setError(null);
-        } 
-        else {
-            console.log("MAKING API CALLS");
-            fetchLocationWithIP();
-        }
+        const fetchLocation = async () => {
+            if (locationCookie) {
+                console.log("USING COOKIE DATA");
+                setLocation(locationCookie);
+                setLoading(false);
+                setError(null);
+            } 
+            else {
+                try {
+                    console.log("MAKING API CALLS");
+                    await fetchLocationWithIP();
+                } 
+                catch (error) {
+                    console.log("FAILED TO RETRIEVE LOCATION WITH API METHODS.");
+                    console.log("ASKING FOR LOCATION INSTEAD WITH GEOLOCATION.");
+                    navigator.geolocation.getCurrentPosition(
+                        handlePermissionGrantedOrAccessible,
+                        handlePermissionDeniedOrUnaccessible
+                    );
+                }
+            }
+        };
+        fetchLocation();
         /* eslint: disable */
     }, []);
-     /* eslint: enable */
+    /* eslint: enable */
+    
+    // ...
+  
 
     const contextValue: LocationContextType = {
         loading, error, location, setLocation, showModal, setShowModal

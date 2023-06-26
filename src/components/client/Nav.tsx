@@ -4,7 +4,6 @@ import Favorites from "./Favorites";
 
 export default function Nav ({ ...props }) {
     const [ showFavorites, setShowFavorites ] = useState<boolean>(false);
-    console.log(showFavorites)
     return (
         <nav {...props} className="z-[100] fixed top-0 left-0 px-4 sm:px-10 md:px-20 flex items-center justify-between w-full h-14 bg-zinc-950 border-b-2 border-stone-800">
             <div><h1 className="text-stone-100 text-lg md:text-2xl font-bold">Restaurant Roulette🍴</h1></div>
