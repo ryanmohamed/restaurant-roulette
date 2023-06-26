@@ -15,7 +15,7 @@ export default function Home() {
 
   if (error) {
     return ( 
-      <ErrorElement message="Could not find your location automatically! Try setting it manually." />
+      <ErrorElement message="Could not find your location automatically! (You may have to allow location permissions in your browser." />
     )
   }
 

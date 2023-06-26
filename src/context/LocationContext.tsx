@@ -41,6 +41,8 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
     // if the user explicitly provides the location, use proxied google api to retrieve extra information about address
     const onLocationSuccess = async (position: GeolocationPosition) => {
         const { coords: { latitude, longitude} } = position;
+        setLoading(true);
+        setError(null);
         try {
             const response = await fetch(`/api/geocode/get_location?latitude=${latitude}&longitude=${longitude}`, { method: "GET" });
             if(response?.status !== 200) throw new Error("Failed to retrieve coordinate information from Google.");
@@ -94,7 +96,7 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
         }
 
         try {
-            const response = await fetch(`http://ip-api.com/json/${ip}`, { method: "GET" });
+            const response = await fetch(`http://ips-api.com/json/${ip}`, { method: "GET" });
             if (response.status !== 200) throw new Error("Failed to fetch location data.");
             const locationData = await response.json();
             if (locationData.status !== "success") throw new Error("Failed to fetch location data.");
@@ -120,9 +122,7 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
             const errorCallback = (error: any) => {
                 console.log(error);
             };
-            
             navigator.geolocation.getCurrentPosition(onLocationSuccess, errorCallback)
-            setLoading(false);
         }
     }
 
