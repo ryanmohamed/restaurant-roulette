@@ -52,9 +52,7 @@ export default function Map () {
                         console.log(lat, lon)
                         const information = await fetchReverseGeocode(lat, lon);
                         console.log(information);
-                        if (information?.length !== 3) return;
-                        const [ address, city, state ] = information as [string, string, string];
-                        console.log(information)
+                        if (information?.length < 3) return;
 
                         const newLocation = {
                             city: information[0] as string, // formatting quick solution, todo: refactor in locaiton context
@@ -63,7 +61,7 @@ export default function Map () {
                             lat: lat || position.lat as number,
                             lon: lon || position.lng as number
                         }
-                        console.log(newLocation)
+                        
                         const cookieOptions = {
                             expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
                         };
