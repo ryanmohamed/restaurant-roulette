@@ -38,6 +38,39 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
     // cookies
     const [ locationCookie, setLocationCookie, removeLocationCookie ] = useCookie("x-restaurant-roulette-location");
 
+    // if the user explicitly provides the location, use proxied google api to retrieve extra information about address
+    const onLocationSuccess = async (position: GeolocationPosition) => {
+        const { coords: { latitude, longitude} } = position;
+        try {
+            const response = await fetch(`/api/geocode/get_location?latitude=${latitude}&longitude=${longitude}`, { method: "GET" });
+            if(response?.status !== 200) throw new Error("Failed to retrieve coordinate information from Google.");
+            const data = await response.json();
+            if(data === undefined || data === null) throw new Error("Failed to retrieve coordinate information from Google.");
+            const terms = data.formatted_address?.split(',');
+            const [ address, city, state ] = terms;
+            const newLocation = {
+                city: address as string, // formatting quick solution, todo: refactor in locaiton context
+                regionName: city as string,
+                zip: state as string,
+                lat: latitude,
+                lon: longitude
+            }
+            console.log("new location", newLocation)
+            setLocation(newLocation);
+            setError(null);
+            setLoading(false);
+
+            const cookieOptions = {
+                expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
+            };
+            const locationString = JSON.stringify(newLocation);
+            setLocationCookie(locationString, cookieOptions);
+        }
+        catch (error) {
+            console.log("Failed to retrieve coordinate information from Google.");
+        }
+    };
+
     const fetchIP = async (): Promise<string | null> => {
         try {
             const response = await fetch("https://api.ipify.org?format=json", { method: "GET" });
@@ -51,7 +84,7 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
         }
     }
 
-    const fetchLocation = async (): Promise<void> => {
+    const fetchLocationWithIP = async (): Promise<void> => {
         // ip to location
         const ip = await fetchIP();
         if (!ip) {
@@ -82,6 +115,13 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
         catch (error) {
             console.log("Failed to fetch location data: ", error);
             setError("Failed to fetch location data: ");
+
+            // fallback and ask the user for their location
+            const errorCallback = (error: any) => {
+                console.log(error);
+            };
+            
+            navigator.geolocation.getCurrentPosition(onLocationSuccess, errorCallback)
             setLoading(false);
         }
     }
@@ -95,7 +135,7 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
         } 
         else {
             console.log("MAKING API CALLS");
-            fetchLocation();
+            fetchLocationWithIP();
         }
         /* eslint: disable */
     }, []);
