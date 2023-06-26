@@ -3,7 +3,7 @@ import useSessionStorage from "@/hooks/useSessionStorage";
 import { BusinessType } from "@/lib/YelpTypes";
 import { MouseEventHandler, useEffect, useState } from "react";
 
-export default function SaveRestaurant ({ restaurant }: { restaurant: BusinessType}) {
+export default function SaveRestaurant ({ restaurant, className }: { restaurant: BusinessType, className?: string}) {
     const [ toggle, setToggle ] = useState<boolean>(true);
     const handleSave: MouseEventHandler = (event) => {
         event.preventDefault();
@@ -12,7 +12,7 @@ export default function SaveRestaurant ({ restaurant }: { restaurant: BusinessTy
         if (toggle) window.sessionStorage.setItem("restaurant-roulette-" + restaurantID, JSON.stringify(restaurant));
         else window.sessionStorage.removeItem("restaurant-roulette-" + restaurantID);
         setToggle(!toggle);
-        window.dispatchEvent(new Event("storage")); // rerender favorites
+        window?.dispatchEvent(new Event("storage")); // rerender favorites
     }
     
     useEffect(() => {
@@ -21,7 +21,7 @@ export default function SaveRestaurant ({ restaurant }: { restaurant: BusinessTy
     }, [restaurant])
 
     return (
-        <button onClick={handleSave} className="btn font-bold h-full mr-2 sm:mr-0 py-2 text-xs centered bg-red-700 hover:bg-red-500 text-stone-300">
+        <button onClick={handleSave} className={`btn font-bold h-full mr-2 sm:mr-0 py-2 text-xs centered bg-red-700 hover:bg-red-500 text-stone-300 ${className}`}>
             { toggle ? "Add to favorites" : "Remove from favorites" }
         </button>
     );

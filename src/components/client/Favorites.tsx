@@ -8,22 +8,26 @@ export default function Favorites ({ show, close }: { show: boolean, close: Call
     const copySession = () => {
         const f = [];
         if (typeof window === "undefined") return;
+        if(sessionStorage?.length === 0) setFavorites([]);
         for(let i = 0; i < sessionStorage.length; i++) {
-            console.log(sessionStorage.key(i))
             const restaurantID = sessionStorage.key(i);
             if (restaurantID?.startsWith("restaurant-roulette-")){
                 const restaurant = sessionStorage.getItem(restaurantID);
                 const restaurantData: BusinessType = JSON.parse(restaurant as string);
                 f.push(restaurantData);
                 setFavorites(f);
+                console.log(f);
             }
         }
     }
 
     useEffect(() => {
         copySession();
-        console.log("yo")
     }, []);
+
+    useEffect(() => {
+        copySession();
+    }, [show]);
 
     // listen for changes to sessions storage
     useEffect(() => {
@@ -33,14 +37,14 @@ export default function Favorites ({ show, close }: { show: boolean, close: Call
 
 
     return (
-        <div className={`flex flex-col justify-between z-[98] absolute top-full translate-x-[${ show ? "0" : "100%"}] right-0 mt-[2px] screen-h w-72 bg-stone-950 transition`}>
-            <div className="h-full overflow-y-scroll no-scrollbar ">
+        <div className={`flex flex-col z-[98] absolute top-full right-0 mt-[2px] screen-h w-72 bg-stone-950 transition`} style={{ transform: `translateX(${show ? 0 : 100}%)`}}>
+            <div className="w-full p-4 centered">
+                <button className="btn w-full font-bold bg-red-700 hover:bg-red-500" onClick={()=>close()}>Close</button>
+            </div>
+            <div className="h-full overflow-y-scroll no-scrollbar">
                 { favorites?.map((favorite: BusinessType, idx: number) => (
                     <div key={idx}><FavoriteBlock restaurant={favorite}/></div>
                 )) }
-            </div>
-            <div className="w-full p-4 centered">
-                <button className="btn w-full font-bold bg-red-700 hover:bg-red-500" onClick={()=>close()}>Close</button>
             </div>
         </div>
     );

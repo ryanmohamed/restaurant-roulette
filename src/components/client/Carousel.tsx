@@ -71,10 +71,10 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
         <div className="flex flex-col flex-grow justify-between">
             <Restaurant restaurant={values[page]} extras={restaurantsData[values[page]?.id || ""]} />
             <div className="centered h-20 mt-4">
-                <div className="flex border-2 w-fit border-stone-400 p-2 rounded-full">
-                    <button onClick={prevPage} className="paginate"><Caret fill="white" className="rotate-180 h-16 w-16" /></button>
+                <div className="flex items-center border-2 w-fit border-stone-400 p-2 rounded-full">
+                    <button onClick={prevPage} className="paginate"><Caret fill="white" className="rotate-180 w-10 md:w-16 h-10 md:h-16" /></button>
                     <p className="w-10 text-center centered text-lg text-stone-600 font-poppins">Page {page+1}/{values.length}</p>
-                    <button onClick={nextPage} className="paginate"><Caret fill="white" className="h-16 w-16" /></button>
+                    <button onClick={nextPage} className="paginate"><Caret fill="white" className="w-10 md:w-16 h-10 md:h-16" /></button>
                 </div>
             </div>
         </div>

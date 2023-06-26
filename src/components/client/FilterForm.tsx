@@ -25,7 +25,7 @@ const FilterForm = () => {
         initialValues={{
             terms: '',
             distance: 40000,
-            sort_by: 'best_match',
+            sort_by: 'distance',
             open_now: false,
             price: "$$$$",
             hot_n_new: false,
@@ -68,10 +68,10 @@ const FilterForm = () => {
 
                     <Select label="Sort By:" name="sort_by">
                         <option value="">Select sort method</option>
+                        <option value="distance">Distance</option>
                         <option value="best_match">Best Match</option>
                         <option value="rating">Rating</option>
                         <option value="review_count">Review Count</option>
-                        <option value="distance">Distance</option>
                     </Select>
 
                     <Select label="Price Range:" name="price">

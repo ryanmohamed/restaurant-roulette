@@ -22,7 +22,7 @@ export default function Layout ({ children }: { children: ReactNode } ) {
             
             <Landing />
             <Nav />
-            <section id="content" className="min-screen-h flex flex-col md:flex-row pt-[55px] mt-[-55px]">
+            <section id="content" className="min-screen-h flex flex-col md:flex-row mt-[-55px] pt-[55px] ">
                 <SidePanel />
                 {children}
             </section>

@@ -47,24 +47,24 @@ export default function Map () {
                     lng: location?.lon || position.lng
                     }}
                     onDragEnd={ async (e) => {
-                    const lat = e.latLng?.lat();
-                    const lon = e.latLng?.lng();
-                    const information = await fetchReverseGeocode(lat, lon);
-                    const [ address, city, state ] = information;
+                        const lat = e.latLng?.lat();
+                        const lon = e.latLng?.lng();
+                        const information = await fetchReverseGeocode(lat, lon);
+                        const [ address, city, state ] = information;
 
-                    const newLocation = {
-                        city: address as string, // formatting quick solution, todo: refactor in locaiton context
-                        regionName: city as string,
-                        zip: state as string,
-                        lat: lat || position.lat,
-                        lon: lon || position.lng
-                    }
-                    const cookieOptions = {
-                        expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
-                    };
-                    const locationString = JSON.stringify(newLocation);
-                    setLocationCookie(locationString, cookieOptions);
-                    setLocation && setLocation(newLocation);
+                        const newLocation = {
+                            city: address as string, // formatting quick solution, todo: refactor in locaiton context
+                            regionName: city as string,
+                            zip: state as string,
+                            lat: lat || position.lat,
+                            lon: lon || position.lng
+                        }
+                        const cookieOptions = {
+                            expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
+                        };
+                        const locationString = JSON.stringify(newLocation);
+                        setLocationCookie(locationString, cookieOptions);
+                        setLocation && setLocation(newLocation);
                     }}
                 />
 

@@ -21,7 +21,7 @@
     @apply screen-h md:max-w-[80%] flex-grow w-full box-border p-4 bg-stone-100 flex flex-col;
   }
   .paginate {
-    @apply mx-4 flex items-center justify-center rounded-full text-stone-300 w-16 h-16 shadow-black shadow-md bg-gradient-to-r from-green-800 to-green-400 transition hover:scale-105;
+    @apply mx-4 flex items-center justify-center rounded-full text-stone-300 w-10 md:w-16 h-10 md:h-16 shadow-black shadow-md bg-gradient-to-r from-green-800 to-green-400 transition hover:scale-105;
   }
 }
 
