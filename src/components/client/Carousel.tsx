@@ -49,7 +49,7 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
             if (timeout) clearTimeout(timeout);
             timeout = setTimeout(() => {
                 fetchSupplementalData(values[page]?.id)
-            }, 3000)
+            }, 1500)
         }
         delayRequest();
 
