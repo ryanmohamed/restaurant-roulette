@@ -57,12 +57,13 @@ export default function Map () {
                         console.log(information)
 
                         const newLocation = {
-                            city: address as string, // formatting quick solution, todo: refactor in locaiton context
-                            regionName: city as string,
-                            zip: state as string,
-                            lat: lat || position.lat,
-                            lon: lon || position.lng
+                            city: information[0] as string, // formatting quick solution, todo: refactor in locaiton context
+                            regionName: information[1] as string,
+                            zip: information[2] as string,
+                            lat: lat || position.lat as number,
+                            lon: lon || position.lng as number
                         }
+                        console.log(newLocation)
                         const cookieOptions = {
                             expires: new Date(Date.now() + 1 * 1 * 60 * 60 * 1000) // in 1 hour
                         };
