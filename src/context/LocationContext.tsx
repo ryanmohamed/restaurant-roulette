@@ -69,6 +69,10 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
             setLocationCookie(locationString, cookieOptions);
         }
         catch (error) {
+            removeLocationCookie({ });
+            setError("Failed to fetch location data: ");
+            setLoading(false);
+            setLocation({ city: "Montreal", regionName: "Quebec", zip: "H3H", lat: 45.5075, lon: -73.5887 });
             console.log("Failed to retrieve coordinate information from Google.");
         }
     };
