@@ -80,7 +80,7 @@ export default function Map () {
 
 async function fetchReverseGeocode (lat: any, lon: any) {
     try {
-      const response = await fetch(`/api/geocode/get_location?latitude=${lat}&longitude=${lon}`, { method: "GET" });
+      const response = await fetch(`/api/geocode/get_location?latitude=${lat}&longitude=${lon}`, { method: "GET", headers: { 'Content-Type': 'application/json' }});
       console.log("response", response);
       if (response.status !== 200 || response.statusText !== "OK") throw new Error("Error occured getting location information.");
       const data = await response.json();
