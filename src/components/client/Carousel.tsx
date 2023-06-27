@@ -30,15 +30,18 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
                 const data: ReviewResponseType = await response.json();
                 if (data === null || data === undefined) throw new Error("Failed to retrieve supplemental restaurant data.");
         
+                // restaurant should be the origin for delivery
                 const o_lat = values[page]?.coordinates.latitude;
                 const o_lon = values[page]?.coordinates.longitude;
                 const d_lat = locationCookie?.lat;
                 const d_lon = locationCookie?.lon;
 
+                console.log()
+
                 // keep in mind, this doesn't have a strong exception gurantee, ideally we want to seperate these two pieces of functionality
                 const distanceURL = `/api/geocode/get_distance?o_latitude=${o_lat}&o_longitude=${o_lon}&d_latitude=${d_lat}&d_longitude=${d_lon}`;
                 const distanceResponse = await fetch(distanceURL, { method: "GET", headers: { 'Content-Type': 'application/json' }});
-                if (distanceResponse.status !== 200) throw new Error("Failed to retrieve supplemental restaurant data.");
+                if (distanceResponse?.status !== 200) throw new Error("Failed to retrieve supplemental restaurant data.");
                 const distanceData: any = await distanceResponse.json();
                 if (distanceData === null || distanceData === undefined) throw new Error("Failed to retrieve supplemental restaurant data.");
                 const { duration, distance } = distanceData;

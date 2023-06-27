@@ -60,10 +60,13 @@ export default async function handler(
 
     const url = `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=${o_latitude},${o_longitude}&destinations=${d_latitude},${d_longitude}&traffic_model=pessimistic&mode=driving&departure_time=now&key=${process.env.DISTANCE_MATRIX_KEY}`
     try {
+        console.log("before server side fetch");
         const response = await fetch(url, { method: "GET" });
+        console.log(response)
         if (response.status !== 200) throw new Error("Failed to retrieve distance information.");
+        console.log("before server side data json parse");
         const data = await response.json();
-
+        console.log("before rows is known to be an array");
         if(data?.rows === undefined || data?.rows === null || typeof data.rows?.length !== "number" || data.rows.length === 0) throw new Error("Failed to retrieve distance information.");
         
         const { elements } = data.rows[0];
@@ -83,7 +86,8 @@ export default async function handler(
             value: seconds
         }
 
-        return res.status(200).json( { distance, duration: newDuration } );
+        return res.status(400).json({ error: "Failed to retrieve distance information from Distance Matrix API." });
+        //return res.status(200).json( { distance, duration: newDuration } );
     }
 
     catch (error) {
