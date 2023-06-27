@@ -58,7 +58,7 @@ export default async function handler(
         method,
     } = req;
 
-    const url = `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=${o_latitude},${o_longitude}&destinations=${d_latitude},${d_longitude}&traffic_model=pessimistic&mode=driving&departure_time=now&key=${process.env.DISTANCE_MATRIX_KEY}`
+    const url = `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=${o_latitude},${o_longitude}&destinations=${d_latitude},${d_longitude}&traffic_model=pessimistic&key=${process.env.DISTANCE_MATRIX_KEY}`
     try {
         console.log("before server side fetch");
         const response = await fetch(url, { method: "GET" });
