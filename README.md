@@ -73,6 +73,8 @@ Yelp requires our application API Key, so we'll use the web app's server as a pr
 
 ## Vulnerabilities
 1. A recently found vulnerability stemming from `semver`. Since this is a small project I will overlook this since it's a recently posted issue found [here.](https://github.com/advisories/GHSA-c2qf-rxjj-qqgw)
+2. `jest` brings along 23 vulnerabilities of it's own, keep this in mind when cloning. 
+
 
 ## Learn More
 

@@ -9,8 +9,8 @@ const containerStyle = {
   };
   
 const position = {
-    lat: 37.772,
-    lng: -122.214
+    lat: 45.5075, 
+    lng: -73.5887
 };
   
 export default function Map () {
@@ -50,7 +50,7 @@ export default function Map () {
                         const lat = e.latLng?.lat();
                         const lon = e.latLng?.lng();
                         const information = await fetchReverseGeocode(lat, lon);
-                        if (information?.length < 3) return;
+                        if (typeof information?.length !== "number" || information?.length < 3) return;
 
                         const newLocation = {
                             city: information[0] as string, // formatting quick solution, todo: refactor in locaiton context

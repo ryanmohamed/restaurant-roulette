@@ -5,14 +5,14 @@ import Reviews from "./Reviews";
 import ReviewsWireframe from "./ReviewsWireframe";
 import StarList from "./StarList";
 
-export default function Restaurant ({ restaurant, extras }: { restaurant: BusinessType, extras?: ReviewResponseType }) {
+export default function Restaurant ({ restaurant, extras }: { restaurant: BusinessType, extras?: ReviewResponseType & { distance?: any, duration?: any } }) {
     return (
         <div className="w-full h-full flex flex-col justify-between">
 
             <div>
                 <div className="flex items-end pb-1 border-b-2 border-stone-800">
                     <h2 className="capitalize w-4/5 font-semibold text-stone-950 text-xl md:text-3xl">{restaurant?.name}</h2>
-                    <p className="flex justify-end items-end ml-2 w-1/5 font-barlow">XX-XX min</p>
+                    <p className="flex justify-end items-end ml-2 w-1/5 font-barlow">{ extras?.duration?.text ? extras.duration.text : "XX-XX min"} </p>
                 </div>
 
                 <p className="font-poppins mt-2 text-right text-sm sm:text-md">{restaurant?.location?.address1}, {restaurant.location?.city}, {restaurant.location?.zip_code}</p>

@@ -147,8 +147,6 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
         }
     }
 
-    // ...
-
     useEffect(() => {
         const fetchLocation = async () => {
             if (locationCookie) {
@@ -165,7 +163,8 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
                 catch (error) {
                     console.log("FAILED TO RETRIEVE LOCATION WITH API METHODS.");
                     console.log("ASKING FOR LOCATION INSTEAD WITH GEOLOCATION.");
-                    navigator.geolocation.getCurrentPosition(
+                    // test-suggested addition: ensure user HAS a navigator to access
+                    navigator?.geolocation?.getCurrentPosition(
                         handlePermissionGrantedOrAccessible,
                         handlePermissionDeniedOrUnaccessible
                     );
@@ -176,9 +175,6 @@ export const LocationProvider: FC<{ children?: ReactNode }>= ({children}) =>
         /* eslint: disable */
     }, []);
     /* eslint: enable */
-    
-    // ...
-  
 
     const contextValue: LocationContextType = {
         loading, error, location, setLocation, showModal, setShowModal

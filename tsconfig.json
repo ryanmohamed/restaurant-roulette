@@ -18,6 +18,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/testdata.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/testdata.ts", "__tests__/LocationContext.test.js", "jest.config.js"],
   "exclude": ["node_modules"]
 }
