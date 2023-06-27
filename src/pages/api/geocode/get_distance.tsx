@@ -62,10 +62,10 @@ export default async function handler(
     try {
         console.log("before server side fetch");
         const response = await fetch(url, { method: "GET" });
-        console.log(response)
         if (response.status !== 200) throw new Error("Failed to retrieve distance information.");
         console.log("before server side data json parse");
         const data = await response.json();
+        console.log(data)
         console.log("before rows is known to be an array");
         if(data?.rows === undefined || data?.rows === null || typeof data.rows?.length !== "number" || data.rows.length === 0) throw new Error("Failed to retrieve distance information.");
       
