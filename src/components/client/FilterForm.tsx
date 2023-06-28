@@ -43,7 +43,7 @@ const FilterForm = () => {
         }}
     >
 
-        <Form className="text-base flex-grow flex flex-col justify-between mt-4 px-3 h-full">
+        <Form className="text-base flex-grow flex flex-col justify-between mt-4 px-3 h-full md:h-auto">
             <div>
                 <div className="flex flex-col text-sm">
                     <p className="flex justify-between text-right"><b className="mr-4">Location:</b> <span>{location ? `${location.city}, ${location.regionName}, ${location.zip}` : "Montreal, Quebec, H3H"}</span></p>
