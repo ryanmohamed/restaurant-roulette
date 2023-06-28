@@ -37,7 +37,7 @@ export default function Favorites ({ show, close }: { show: boolean, close: Call
 
 
     return (
-        <div className={`flex flex-col z-[98] absolute top-full right-0 mt-[2px] screen-h w-72 bg-stone-950 transition`} style={{ transform: `translateX(${show ? 0 : 100}%)`}}>
+        <div className={`flex flex-col z-[98] absolute top-full right-0 mt-[2px] screen-h w-full sm:w-72 bg-stone-950 transition`} style={{ transform: `translateX(${show ? 0 : 100}%)`}}>
             <div className="w-full p-4 centered">
                 <button className="btn w-full font-bold bg-red-700 hover:bg-red-500" onClick={()=>close()}>Close</button>
             </div>

@@ -29,14 +29,13 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
                 if (response.status !== 200) throw new Error("Failed to retrieve supplemental restaurant data.");
                 const data: ReviewResponseType = await response.json();
                 if (data === null || data === undefined) throw new Error("Failed to retrieve supplemental restaurant data.");
-        
+                const restaurantCacheData: ReviewResponseType & { duration?: any, distance?: any } = data;
+
                 // restaurant should be the origin for delivery
                 const o_lat = values[page]?.coordinates.latitude;
                 const o_lon = values[page]?.coordinates.longitude;
                 const d_lat = locationCookie?.lat;
                 const d_lon = locationCookie?.lon;
-
-                console.log()
 
                 // keep in mind, this doesn't have a strong exception gurantee, ideally we want to seperate these two pieces of functionality
                 const distanceURL = `/api/geocode/get_distance?o_latitude=${o_lat}&o_longitude=${o_lon}&d_latitude=${d_lat}&d_longitude=${d_lon}`;
@@ -47,9 +46,9 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
                 const { duration, distance } = distanceData;
                 console.log(duration, distance);
 
-                const restaurantCacheData: ReviewResponseType & { duration?: any, distance?: any } = data;
                 restaurantCacheData.duration = duration;
                 restaurantCacheData.distance = distance;
+
                 cache[restaurantId] = restaurantCacheData; // Store the data in cache
                 setRestaurantsData((prevData) => ({
                     ...prevData,
@@ -94,7 +93,7 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
     return (
         <div className="flex flex-col flex-grow justify-between">
             <Restaurant restaurant={values[page]} extras={restaurantsData[values[page]?.id || ""]}/>
-            <div className="centered h-20 mt-4">
+            <div className="centered h-20 mb-4">
                 <div className="flex items-center border-2 w-fit border-stone-400 p-2 rounded-full">
                     <button onClick={prevPage} className="paginate"><Caret fill="white" className="rotate-180 w-10 md:w-16 h-10 md:h-16" /></button>
                     <p className="w-10 text-center centered text-lg text-stone-600 font-poppins">Page {page+1}/{values.length}</p>

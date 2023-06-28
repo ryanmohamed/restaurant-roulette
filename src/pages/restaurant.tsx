@@ -58,7 +58,7 @@ export default function Page ({
   }
 
   return (
-    <main className={`page w-full box-border bg-stone-100 text-black`}>
+    <main className={`page h-fit md:screen-h w-full box-border bg-stone-100 text-black`}>
       { restaurants && <>
         <Carousel values={restaurants.businesses}/>
       </> }

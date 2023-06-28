@@ -8,7 +8,7 @@ import { Carousel } from 'react-responsive-carousel';
 export default function Reviews ({ reviews }: { reviews: ReviewType[]}) {
     const reviewElements = getElements(reviews);
     return (
-        <div className="flex flex-col w-full h-fit pt-2 mt-4">
+        <div className="flex flex-col w-full h-fit pt-2 sm:mt-4">
             <h3 className="text-base mb-4 w-fit font-poppins font-semibold border-b-2 border-stone-800">Reviews</h3>
             <Carousel className="sm:hidden cursor-pointer" emulateTouch={true} autoPlay={true} infiniteLoop={true} useKeyboardArrows={true} showThumbs={false} showStatus={false} showIndicators={false} showArrows={false}>
                 {reviewElements}

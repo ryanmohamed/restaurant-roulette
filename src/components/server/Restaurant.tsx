@@ -12,7 +12,7 @@ export default function Restaurant ({ restaurant, extras }: { restaurant: Busine
             <div>
                 <div className="flex items-end pb-1 border-b-2 border-stone-800">
                     <h2 className="capitalize w-4/5 font-semibold text-stone-950 text-xl md:text-3xl">{restaurant?.name}</h2>
-                    <p className="flex justify-end items-end ml-2 w-1/5 font-barlow">{ extras?.duration?.text ? extras.duration.text : "XX-XX min"} </p>
+                    <p className="flex justify-end items-end ml-2 w-2/5 md:w-1/5 font-barlow">{ extras?.duration?.text ? extras.duration.text : "XX-XX min"} </p>
                 </div>
 
                 <p className="font-poppins mt-2 text-right text-sm sm:text-md">{restaurant?.location?.address1}, {restaurant.location?.city}, {restaurant.location?.zip_code}</p>
@@ -44,7 +44,7 @@ export default function Restaurant ({ restaurant, extras }: { restaurant: Busine
                            
                         </div>
 
-                        <div className="self-end flex flex-col items-end mt-4">
+                        <div className="sm:self-end flex items-start justify-between sm:flex-col sm:items-end sm:mt-4">
                             <h3 className="w-fit font-poppins font-semibold border-b-2 border-stone-800">Tags</h3>
                             <ul className="mt-2 flex flex-wrap">
                                 { restaurant.categories.length > 0 && restaurant.categories.map((category: CategoryType, key: number) => (

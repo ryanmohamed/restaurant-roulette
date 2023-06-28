@@ -11,7 +11,7 @@ export default function Layout ({ children }: { children: ReactNode } ) {
     
     const { showModal, setShowModal } = useLocationContext();
     return (
-        <div className="pt-14 min-screen-h">
+        <div className="pt-14 min-screen-h w-full">
             <Modal show={showModal} close={() => setShowModal && setShowModal(false)}>
                 <div>
                     <p className="mb-4 text-white font-poppins font-bold text-center text-2xl">Move the marker to your new location, the app will update automatically.</p>
@@ -22,7 +22,7 @@ export default function Layout ({ children }: { children: ReactNode } ) {
             
             <Landing />
             <Nav />
-            <section id="content" className="min-screen-h flex flex-col md:flex-row mt-[-55px] pt-[55px] ">
+            <section id="content" className="md:screen-h min-screen-h flex flex-col md:flex-row mt-[-55px] pt-[55px] ">
                 <SidePanel />
                 {children}
             </section>
