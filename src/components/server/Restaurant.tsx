@@ -44,7 +44,7 @@ export default function Restaurant ({ restaurant, extras }: { restaurant: Busine
                            
                         </div>
 
-                        <div className="sm:self-end flex items-start justify-between sm:flex-col sm:items-end sm:mt-4">
+                        <div className="sm:self-end flex items-start justify-between sm:flex-col sm:items-end mt-4">
                             <h3 className="w-fit font-poppins font-semibold border-b-2 border-stone-800">Tags</h3>
                             <ul className="mt-2 flex flex-wrap">
                                 { restaurant.categories.length > 0 && restaurant.categories.map((category: CategoryType, key: number) => (
