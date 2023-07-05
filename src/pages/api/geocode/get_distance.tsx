@@ -7,47 +7,6 @@ type Error = {
     error: string
 }
 
-const addTimeDurations = (duration1: string, duration2: string): string => {
-    const parseDuration = (duration: string): [number, number] => {
-        const regex = /(\d+)(h|min)s?/g;
-        let hours = 0;
-        let minutes = 0;
-    
-        let match;
-        while ((match = regex.exec(duration)) !== null) {
-          const [_, value, unit] = match;
-          const numValue = parseInt(value, 10);
-    
-          if (unit === 'h') {
-            hours += numValue;
-          } else if (unit === 'min' || unit === 'mins') {
-            minutes += numValue;
-          }
-        }
-    
-        return [hours, minutes];
-      };
-    
-      const [hours1, minutes1] = parseDuration(duration1);
-      const [hours2, minutes2] = parseDuration(duration2);
-    
-      const totalHours = hours1 + hours2;
-      const totalMinutes = minutes1 + minutes2;
-    
-      const finalHours = Math.floor(totalMinutes / 60) + totalHours;
-      const finalMinutes = totalMinutes % 60;
-    
-      let result = "";
-      if (finalHours > 0) {
-        result += `${finalHours}h `;
-      }
-      if (finalMinutes > 0) {
-        result += `${finalMinutes}min`;
-      }
-    
-      return result.trim();
-}
-
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data | Error>

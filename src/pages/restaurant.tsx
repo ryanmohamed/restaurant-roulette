@@ -3,6 +3,7 @@ import ErrorElement from '@/components/server/ErrorElement';
 import type { ErrorResponseType, SearchResponseType } from '@/lib/YelpTypes';
 import TestData from '@/testdata';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import React from "react";
 
 const errorMessage = "An error occured retrieving restaurant information.";
 

@@ -40,14 +40,16 @@ export default function Carousel ({ values }: { values: BusinessType[] }) {
                 // keep in mind, this doesn't have a strong exception gurantee, ideally we want to seperate these two pieces of functionality
                 const distanceURL = `/api/geocode/get_distance?o_latitude=${o_lat}&o_longitude=${o_lon}&d_latitude=${d_lat}&d_longitude=${d_lon}`;
                 const distanceResponse = await fetch(distanceURL, { method: "GET", headers: { 'Content-Type': 'application/json' }});
-                if (distanceResponse?.status !== 200) throw new Error("Failed to retrieve supplemental restaurant data.");
-                const distanceData: any = await distanceResponse.json();
-                if (distanceData === null || distanceData === undefined) throw new Error("Failed to retrieve supplemental restaurant data.");
-                const { duration, distance } = distanceData;
-                console.log(duration, distance);
+                if (distanceResponse?.status === 200) {
+                    const distanceData: any = await distanceResponse.json();
+                    if (distanceData !== null && distanceData !== undefined) {
+                        const { duration, distance } = distanceData;
+                        console.log(duration, distance);
 
-                restaurantCacheData.duration = duration;
-                restaurantCacheData.distance = distance;
+                        restaurantCacheData.duration = duration;
+                        restaurantCacheData.distance = distance;
+                    }   
+                }
 
                 cache[restaurantId] = restaurantCacheData; // Store the data in cache
                 setRestaurantsData((prevData) => ({
